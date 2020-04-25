@@ -1,8 +1,10 @@
 # folders
-
+models/
 data/
 
 # PyCharm files
 .idea
 
 # RStudio files
+*.Rproj.user
+*.Rproj
