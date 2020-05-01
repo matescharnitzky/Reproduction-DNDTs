@@ -13,7 +13,8 @@ packages <- c("tidyverse", # ggplot2, tibble, tidyr, readr, purrr, dplyr, forcat
               "rpart.plot",
               "rpart.utils",
               "caret",
-              "ranger"
+              "ranger",
+              "xgboost"
               )
 
 # Load/install packages

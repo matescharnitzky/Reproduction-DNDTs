@@ -14,6 +14,7 @@ source("./src/process_data.R")
 source("./src/run_lm.R")
 source("./src/run_rpart.R")
 source("./src/run_ranger.R")
+source("./src/run_xgboost.R")
 
 # 2. read data ------------------------------------
 
@@ -58,6 +59,11 @@ test_id <- input_list[["input_df"]] %>%
   filter(data_type == "test") %>% 
   select(id) %>% 
   pull
+
+# save
+write_csv(train_df, "./data/interim/train_processed_df_20200426.csv")
+write_csv(test_df, "./data/interim/test_processed_df_20200426.csv")
+write_csv(data.frame(test_id), "./data/interim/test_ids.csv")
 
 # 4. Run: linear model ----------------------------
 
@@ -150,15 +156,14 @@ plot_variable_importance(variable = rownames(varImp(ranger_list[["model"]], scal
 write_csv(x = ranger_list[["submission_df"]], 
           path = str_c("./models/ranger_submission_", format(Sys.time(), format = "%Y%m%d%_%H%M"), ".csv"))
 
-# 6. Run: ranger model ----------------------------
+# 6. Run: xgboost model ---------------------------
 
 # run model
 xgboost_list <- run_xgboost(X_train = X_train,
                             y_train = y_train,
                             X_test = X_test,
-                            y_test = y_test,
-                            train_control = train_control,
-                            xgboost_grid = xgboost_grid, 
+                            y_test = y_test, 
+                            xgboost_control = xgboost_control,
                             mean = input_list[["pp_model"]][["mean"]][["saleprice"]], 
                             sd = input_list[["pp_model"]][["std"]][["saleprice"]])
 

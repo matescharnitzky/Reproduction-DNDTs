@@ -15,6 +15,9 @@ target_var <- "saleprice"
 # seed
 seed <- 13
 
+# validation pct
+validation_pct <- 0.2
+
 # general
 train_control <- trainControl(method = "cv", 
                               "number" = 5, 
@@ -109,6 +112,21 @@ xgboost_grid <- expand.grid(nrounds = 1000,
                             min_child_weight = c(1, 2, 3, 4 ,5),
                             subsample = 1
                             )
+
+xgboost_control <- list(booster = "gbtree", 
+                        objective = "reg:squarederror", 
+                        eval_metric = "rmse",
+                        nrounds = 1000, 
+                        max_depth = 3, 
+                        eta = 0.05,
+                        gamma = 0,
+                        colsample_by_tree = 1, 
+                        min_child_weight = 1,
+                        subsample = 1,
+                        verbose = 2, 
+                        print_every_n = 10,
+                        early_stopping_rounds = 50,
+                        maxmize = T)
 
 # 3. visualization -------------------------------
 
